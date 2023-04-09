@@ -1,4 +1,4 @@
-import javafx.*;
+//import javafx.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -25,10 +25,16 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-/*
- * 
- * 
- * */
+
+
+/**
+ * A JavaFX application that demonstrates web scraping 
+ * using JSoup.
+ * @author  Sammy Garcia
+ * @version 1.0
+ * @since   04/09/2023 
+* 
+ */
 
 //import application.FileReader2;
 
@@ -108,13 +114,24 @@ public class Main extends Application {
 			e.printStackTrace();
 		}
 	}
-
+	
+	
+	/**
+	 * The main method of the JavaFX application.
+	 *
+	 * @param args The command-line arguments.
+	 * @throws Exception If an error occurs while running the application.
+	 */
 	public static void main(String[] args) throws Exception {
 
 		launch(args);	
 	}
 }
 
+/**
+ * A comparator that compares two Item objects by 
+ * their count in desc order.
+ */
 class C2 implements Comparator<Item> {
 
 	@Override

@@ -12,11 +12,13 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.sql.*;
+
 /**
  * 
  * A class that extracts the most frequently used words from a webpage.
  * 
- * @author Sammy Garcia
+ * @author Sammy Garcia + Carl from lab
  * @version 1.0
  * @since 04/09/2023
  */
@@ -32,6 +34,10 @@ public class Main1 {
 	 * @throws Exception if an error occurs while connecting to the webpage
 	 */
 	public static String wordMain(String webAddress) throws Exception {
+
+		// jdbc
+		Connection conn = DriverManager
+				.getConnection("jdbc:mysql://localhost/webscraper?user=root&password=KATana91!@");
 
 		int count = 0, maxCount = 0;
 
@@ -67,6 +73,18 @@ public class Main1 {
 			}
 		}
 
+		// jdbc- insert words and their counts into words_counts
+		String insertQuery = "INSERT INTO word_counts (word, count) VALUES (?, ?)";
+		PreparedStatement ps = conn.prepareStatement(insertQuery);
+		/*for (Item item : items) {
+			ps.setString(1, item.word);
+			ps.setInt(2, item.count);
+			ps.executeUpdate();
+			System.out.println(item.word + " " + item.count);
+		}
+		ps.close();
+		*/
+
 		// Sort the words by their frequency count in descending order
 		MapSorter ms = new MapSorter(m, items);
 
@@ -80,13 +98,33 @@ public class Main1 {
 		for (Item item : items) {
 			output += item.word + " " + item.count + "\n";
 			i++;
+			ps.setString(1, item.word);
+			ps.setInt(2, item.count);
+			ps.executeUpdate();
+			//System.out.println(item.word + " " + item.count);
 			if (i > 20) {
 				break;
 			}
 		}
-
-		return output;
-
+		
+		ps.close();
+		
+		String SQL = "SELECT * FROM webscraper.word_counts;";
+		Statement st = conn.createStatement();
+		ResultSet rs = st.executeQuery(SQL);
+		while(rs.next()) {
+			int id = rs.getInt("id");
+			String dbWord = rs.getString("word");
+			int dbCount = rs.getInt("count");
+		System.out.println(id + " " + dbWord + " " + dbCount);
+		}
+		
+		// jdbc close connection
+		conn.close();
+		
+		//return
+		return output;	
+		
 	}// end main
 }// end class
 

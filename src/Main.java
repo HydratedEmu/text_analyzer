@@ -30,6 +30,7 @@ import org.jsoup.select.Elements;
 /**
  * A JavaFX application that demonstrates web scraping 
  * using JSoup.
+ * 
  * @author  Sammy Garcia
  * @version 1.0
  * @since   04/09/2023 
@@ -85,6 +86,7 @@ public class Main extends Application {
 			EventHandler<ActionEvent> runBtnEvent = new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent e) {
 					try {
+						
 						ta.setText(Main1.wordMain(webLink.getText()));
 					} catch (Exception e1) {
 						
